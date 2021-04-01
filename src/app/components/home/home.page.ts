@@ -7,7 +7,7 @@ import {ActivatedRoute, ParamMap, Route} from '@angular/router';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  public userName: string;
+  public userName = 'inconnu(e)';
 
   constructor(private activatedRoute: ActivatedRoute) {
   }
@@ -18,7 +18,10 @@ export class HomePage implements OnInit {
 
   public getUserName(): void {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
-        this.userName = paramMap.get('username');
+        const username = paramMap.get('username');
+        if ( username !== null ) {
+          this.userName = username;
+        }
       }
     );
   }

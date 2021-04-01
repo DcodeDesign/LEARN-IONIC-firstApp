@@ -1,13 +1,14 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>home</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content class="container">
 
   <div class="title">
+
     <h1>Hello {{ userName }}</h1>
+    <p>http://localhost:8101/home/[votre_nom]</p>
+    <ion-item>
+      <ion-label position="floating"  >Entrer un nom</ion-label>
+      <ion-input [(ngModel)]="this.userName" ></ion-input>
+    </ion-item>
   </div>
+
 
 </ion-content>

@@ -9,10 +9,12 @@ export class ChronoPage implements OnInit, OnDestroy {
   public hours = 0;
   public minutes = 0;
   public seconds = 0;
+  public milliSeconds = 0;
   private timer: any;
   chronoStarted = false;
 
-  constructor() {}
+  constructor() {
+  }
 
   ngOnInit() {
 
@@ -21,14 +23,25 @@ export class ChronoPage implements OnInit, OnDestroy {
   public startChrono(): void {
     this.chronoStarted = true;
     this.timer = setInterval(() => {
+      // milliSeconds
+      if (this.milliSeconds < 59) {
+        this.milliSeconds = this.milliSeconds + 1;
+      } else {
+        this.milliSeconds = 0;
+
+        // seconds
         if (this.seconds < 59) {
           this.seconds = this.seconds + 1;
         } else {
           this.seconds = 0;
+
+          // minutes
           if (this.minutes < 59) {
             this.minutes = this.minutes + 1;
           } else {
             this.minutes = 0;
+
+            // hours
             if (this.hours < 59) {
               this.hours = this.hours + 1;
             } else {
@@ -36,12 +49,13 @@ export class ChronoPage implements OnInit, OnDestroy {
             }
           }
         }
-      }, 1000);
+      }
+    }, 100);
   }
 
   public stopChrono(): void {
-      this.chronoStarted = false;
-      clearInterval(this.timer);
+    this.chronoStarted = false;
+    clearInterval(this.timer);
   }
 
   public initChrono(): void {
@@ -50,11 +64,11 @@ export class ChronoPage implements OnInit, OnDestroy {
     this.hours = 0;
     this.minutes = 0;
     this.seconds = 0;
+    this.milliSeconds = 0;
   }
 
   ngOnDestroy(): void {
-    this.chronoStarted = false;
-    clearInterval(this.timer);
+    this.initChrono();
   }
 
 }
