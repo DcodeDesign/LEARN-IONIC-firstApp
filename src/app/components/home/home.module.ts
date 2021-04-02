@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { HomePageRoutingModule } from './home-routing.module';
 
 import { HomePage } from './home.page';
+import {EmptyFieldDirectiveModule} from '../../directives/emptyFeild/empty-field.module';
+import {ChronoPipe} from '../../pipes/chronoPipe/chrono.pipe';
 
 @NgModule({
   imports: [
@@ -14,8 +16,9 @@ import { HomePage } from './home.page';
     FormsModule,
     IonicModule,
     FormsModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    EmptyFieldDirectiveModule
   ],
-  declarations: [HomePage]
+  declarations: [HomePage, ChronoPipe]
 })
 export class HomePageModule {}

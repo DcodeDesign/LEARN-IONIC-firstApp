@@ -20,12 +20,18 @@
           <ion-button *ngIf="!chronoStarted" (click)="startChrono()" size="large" shape="round" expand="full">
             <ion-icon name="play-circle-outline"></ion-icon>
           </ion-button>
-          <ion-button *ngIf="chronoStarted" (click)="stopChrono()" size="large" shape="round" fill="outline" expand="full">
+          <ion-button *ngIf="chronoStarted"
+                      (click)="stopChrono()"
+                      size="large"
+                      shape="round"
+                      fill="outline"
+                      expand="full">
             <ion-icon name="stop-circle-outline"></ion-icon>
           </ion-button>
         </ion-col>
       </ion-row>
     </div>
   </div>
+
 </ion-content>
 

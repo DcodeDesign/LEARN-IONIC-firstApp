@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'stopwatch',
     pathMatch: 'full'
   },
   {
@@ -14,6 +14,10 @@ const routes: Routes = [
   {
     path: 'chrono',
     loadChildren: () => import('./components/chrono/chrono.module').then(m => m.ChronoPageModule)
+  },
+  {
+    path: 'stopwatch',
+    loadChildren: () => import('./components/stopwatch/stopwatch.module').then( m => m.StopwatchPageModule)
   }
 ];
 

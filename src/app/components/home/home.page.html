@@ -6,8 +6,11 @@
     <p>http://localhost:8101/home/[votre_nom]</p>
     <ion-item>
       <ion-label position="floating"  >Entrer un nom</ion-label>
-      <ion-input [(ngModel)]="this.userName" ></ion-input>
+      <ion-input appEmptyField [(ngModel)]="this.userName"  ></ion-input>
     </ion-item>
+
+    <p>{{ observable | async | chrono }}</p>
+
   </div>
 
 

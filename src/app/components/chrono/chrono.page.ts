@@ -17,14 +17,13 @@ export class ChronoPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
   }
 
   public startChrono(): void {
     this.chronoStarted = true;
     this.timer = setInterval(() => {
       // milliSeconds
-      if (this.milliSeconds < 59) {
+      if (this.milliSeconds < 60) {
         this.milliSeconds = this.milliSeconds + 1;
       } else {
         this.milliSeconds = 0;
