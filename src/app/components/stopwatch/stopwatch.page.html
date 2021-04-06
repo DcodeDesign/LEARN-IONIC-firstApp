@@ -1,67 +1,65 @@
-<ion-content >
-  <ion-header >
+<ion-content>
+  <ion-header>
     <ion-toolbar>
       <!--<ion-button routerLink="home" color="primary">Home</ion-button>
       <ion-button routerLink="chrono" color="primary">Chrono</ion-button>-->
-      <ion-title>Stopwatch</ion-title>
+      <ion-title>TaskTimerRoster</ion-title>
     </ion-toolbar>
   </ion-header>
 
-    <div class="stopwatch">
-      <div>
-        <ion-row>
-          <ion-col size="12" size-sm>
-            <h1 class="stopwatch-dial text-center">
-              {{ time | chrono }}
-            </h1>
-          </ion-col>
-        </ion-row>
+  <div class="stopwatch">
+    <div>
+      <ion-row>
+        <ion-col size="12" size-sm>
+          <h1 class="stopwatch-dial text-center">
+            {{ time | chrono }}
+          </h1>
+        </ion-col>
+      </ion-row>
 
-        <ion-row>
-          <ion-col size="12" size-sm>
-            <ion-button *ngIf="!isStart"
-                        (click)="startTimer()"
-                        [disabled]="isStart"
-                        size="large"
-                        shape="round"
-                        expand="full">
-              <ion-icon name="play-circle-outline"></ion-icon>
-            </ion-button>
-            <ion-button *ngIf="isStart"
-                        (click)="stopTimer()"
-                        [disabled]="!isStart"
-                        size="large"
-                        shape="round"
-                        fill="outline"
-                        expand="full">
-              <ion-icon name="stop-circle-outline"></ion-icon>
-            </ion-button>
-          </ion-col>
-          <ion-col size="6" size-sm>
-            <ion-button shape="round"
-                        fill="outline"
-                        (click)="resetTimer()"
-                        [disabled]="isStart"
-                        expand="full">
-              <ion-icon name="refresh-circle-outline"></ion-icon>
-            </ion-button>
-          </ion-col>
+      <ion-row>
+        <ion-col size="12" size-sm>
+          <ion-button *ngIf="!isStart"
+                      (click)="startTimer()"
+                      [disabled]="isStart"
+                      size="large"
+                      shape="round"
+                      expand="full">
+            <ion-icon name="play-circle-outline"></ion-icon>
+          </ion-button>
+          <ion-button *ngIf="isStart"
+                      (click)="stopTimer()"
+                      [disabled]="!isStart"
+                      size="large"
+                      shape="round"
+                      fill="outline"
+                      expand="full">
+            <ion-icon name="stop-circle-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col size="6" size-sm>
+          <ion-button shape="round"
+                      fill="outline"
+                      (click)="resetTimer()"
+                      [disabled]="!(isStart == false && time > 0)"
+                      expand="full">
+            <ion-icon name="refresh-circle-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
 
-          <ion-col size="6" size-sm>
-            <ion-button shape="round"
-                        fill="outline"
-                        (click)="saveTimer()"
-                        [disabled]="isStart"
-                        expand="full">
-              <ion-icon name="save-outline"></ion-icon>
-            </ion-button>
-          </ion-col>
-        </ion-row>
-      </div>
+        <ion-col size="6" size-sm>
+          <ion-button shape="round"
+                      (click)="saveTimer($event)"
+                      [disabled]="!(isStart == false && time > 0)"
+                      expand="full">
+            <ion-icon name="save-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
     </div>
+  </div>
 
-
-  <ion-virtual-scroll class="listScroll" #vScroll [items]="recordTimer" approxItemHeight="100">
+  <!--<ion-virtual-scroll class="listScroll" #vScroll [items]="recordTimer" approxItemHeight="100">
     <ion-card *virtualItem="let item; let i = index">
       <ion-card-header>
         <ion-card-title> <ion-icon name="stopwatch-outline"></ion-icon> {{ item.date |  date:'EEEE dd MMMM YYYY'}} </ion-card-title>
@@ -71,11 +69,61 @@
         <p>{{ item.time }}s</p>
       </ion-card-content>
     </ion-card>
-  </ion-virtual-scroll>
+  </ion-virtual-scroll>-->
 
-<!--  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
-    </ion-infinite-scroll-content>
-  </ion-infinite-scroll>-->
+  <ion-list-header lines="full" (click)="toggleSeeDetails()">
+    <ion-label>Détails</ion-label>
+    <ion-button>
+      <ion-icon *ngIf="seeDetails" name="chevron-down-outline"></ion-icon>
+      <ion-icon *ngIf="!seeDetails" name="chevron-up-outline"></ion-icon>
+    </ion-button>
+  </ion-list-header>
+  <ion-list *ngIf="seeDetails && recordsTimer.length > 1">
+    <ion-item>
+      <ion-label> Total : <p>{{ timerTotal | chrono  }}</p></ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label> Temps moyen : <p>{{ timerAvg | chrono  }}</p></ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label> Temps minimum : <p>{{ timerMin | chrono  }}</p></ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label> Temps maximum : <p>{{ timerMax | chrono  }}</p></ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list-header lines="full" (click)="toggleSeeRecordsTimer()">
+    <ion-label>Temps</ion-label>
+    <ion-button>
+      <ion-icon *ngIf="seeRecordsTimer" name="chevron-down-outline"></ion-icon>
+      <ion-icon *ngIf="!seeRecordsTimer" name="chevron-up-outline"></ion-icon>
+    </ion-button>
+  </ion-list-header>
+  <ion-reorder-group *ngIf="seeRecordsTimer" (ionItemReorder)="doReorder($event)" disabled="false">
+    <ion-item lines="full" *ngFor="let recordTimer of recordsTimer; let index = index">
+      <ion-item-sliding>
+        <ion-item-options side="start">
+          <ion-item-option (click)="deleteTimer(index)" color="danger" expandable>
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+
+        <ion-item>
+          <ion-label>
+            <span> {{ recordTimer.time | chrono }} </span>
+            <p>{{ recordTimer.date |  date:'EEEE dd MMMM YYYY' }}</p>
+          </ion-label>
+        </ion-item>
+
+        <!-- <ion-item-options side="end">
+           <ion-item-option color="tertiary" expandable>
+             Archive
+           </ion-item-option>
+         </ion-item-options>-->
+      </ion-item-sliding>
+      <ion-reorder slot="end"></ion-reorder>
+    </ion-item>
+  </ion-reorder-group>
 
 </ion-content>
