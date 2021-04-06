@@ -1,6 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {IonReorderGroup, IonVirtualScroll} from '@ionic/angular';
+import {AlertController, IonReorderGroup, IonVirtualScroll} from '@ionic/angular';
 import {ItemReorderEventDetail} from '@ionic/core';
+import {DatePipe} from '@angular/common';
+import {ChronoPipe} from '../../pipes/chronoPipe/chrono.pipe';
 
 @Component({
   selector: 'app-stopwatch',
@@ -10,22 +12,21 @@ import {ItemReorderEventDetail} from '@ionic/core';
 export class StopwatchPage implements OnInit {
   @ViewChild('vScroll', {read: IonVirtualScroll}) virtualScroll: IonVirtualScroll;
   @ViewChild(IonReorderGroup) reorderGroup: IonReorderGroup;
-  public time: number;
+  public time = 0;
   public timer: any;
   public isStart = false;
   public recordsTimer: Array<{ time: number, date: Date }> = [];
-  public timerMax: number = null;
-  public timerMin: number = null;
-  public timerTotal: number = null;
-  public timerAvg: string = null;
+  public timerMax = 0;
+  public timerMin = 0;
+  public timerTotal = 0;
+  public timerAvg = 0;
   public seeDetails = false;
   public seeRecordsTimer = true;
 
-  constructor() {
+  constructor(private alert: AlertController) {
   }
 
   ngOnInit() {
-    this.time = 0;
   }
 
   public startTimer(): void {
@@ -57,9 +58,30 @@ export class StopwatchPage implements OnInit {
     this.calcStat();
   }
 
-  public deleteTimer(i): void {
-    this.recordsTimer.splice(i, 1);
-    this.calcStat();
+  async deleteTimer(i, recordTimer): Promise<void> {
+    const chrono = new ChronoPipe();
+    const formatDate = new DatePipe('fr_FR');
+    const time = chrono.transform(recordTimer.time);
+    const date = formatDate.transform(recordTimer.date, 'EEEE dd MMMM YYYY');
+    this.alert.create({
+      header: `Suppression du chrono `,
+      message: `êtes-vous sur de vouloir supprimer ce chrono ${time} du ${date} ?`,
+      buttons: [{
+        text: 'Supprimer',
+        handler: () => {
+          this.recordsTimer.splice(i, 1);
+          this.calcStat();
+        }
+      },
+        {
+          text: 'Annuler',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }
+      ]
+    }).then((modalAlert: HTMLIonAlertElement) => modalAlert.present());
+
   }
 
   doReorder(event: CustomEvent<ItemReorderEventDetail>): void {
@@ -89,8 +111,8 @@ export class StopwatchPage implements OnInit {
       }, 0));
   }
 
-  public recordTimerAvg(): string {
-    return (this.recordTimerTotal() / this.recordsTimer.length).toFixed(0);
+  public recordTimerAvg(): number {
+    return Number((this.recordTimerTotal() / this.recordsTimer.length).toFixed(0));
   }
 
   public toggleSeeDetails(): void {

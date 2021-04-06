@@ -6,7 +6,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 export class ChronoPipe implements PipeTransform {
 
   transform(value: number): string {
-    let centiSeconds: string | number = value % 100;
+    let centiSeconds: string | number  = (value % 100);
     let seconds: string | number = ((value - centiSeconds) / 100) % 60;
     let minutes: string | number = (Math.floor(value / (100 * 60)));
 
