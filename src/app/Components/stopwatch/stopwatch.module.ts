@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { StopwatchPageRoutingModule } from './stopwatch-routing.module';
 
 import { StopwatchPage } from './stopwatch.page';
-import {ChronoPipe} from '../../pipes/chronoPipe/chrono.pipe';
+import {ChronoPipe} from '../../Pipes/chronoPipe/chrono.pipe';
 
 import localeFr from '@angular/common/locales/fr';
 registerLocaleData(localeFr);

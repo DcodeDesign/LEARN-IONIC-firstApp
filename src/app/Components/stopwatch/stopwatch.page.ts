@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {AlertController, IonReorderGroup, IonVirtualScroll} from '@ionic/angular';
 import {ItemReorderEventDetail} from '@ionic/core';
 import {DatePipe} from '@angular/common';
-import {ChronoPipe} from '../../pipes/chronoPipe/chrono.pipe';
+import {ChronoPipe} from '../../Pipes/chronoPipe/chrono.pipe';
 
 @Component({
   selector: 'app-stopwatch',
@@ -15,7 +15,7 @@ export class StopwatchPage implements OnInit {
   public time = 0;
   public timer: any;
   public isStart = false;
-  public recordsTimer: Array<{ time: number, date: Date }> = [];
+  public recordsTimer: Array<{ time: number, date: Date, favorite: boolean }> = [];
   public timerMax = 0;
   public timerMin = 0;
   public timerTotal = 0;
@@ -53,9 +53,14 @@ export class StopwatchPage implements OnInit {
   }
 
   public saveTimer(e): void {
-    this.recordsTimer.push({time: this.time, date: new Date()});
+    this.recordsTimer.push({time: this.time, date: new Date(), favorite: false});
     // this.virtualScroll.checkRange(0);
     this.calcStat();
+  }
+
+  public isFavoris(i): void {
+    this.recordsTimer[i].favorite = !this.recordsTimer[i].favorite;
+    console.log( this.recordsTimer);
   }
 
   async deleteTimer(i, recordTimer): Promise<void> {

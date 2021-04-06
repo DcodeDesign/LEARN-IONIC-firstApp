@@ -9,15 +9,15 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./components/home/home.module').then(m => m.HomePageModule)
+    loadChildren: () => import('./Components/home/home.module').then(m => m.HomePageModule)
   },
   {
     path: 'chrono',
-    loadChildren: () => import('./components/chrono/chrono.module').then(m => m.ChronoPageModule)
+    loadChildren: () => import('./Components/chrono/chrono.module').then(m => m.ChronoPageModule)
   },
   {
     path: 'stopwatch',
-    loadChildren: () => import('./components/stopwatch/stopwatch.module').then( m => m.StopwatchPageModule)
+    loadChildren: () => import('./Components/stopwatch/stopwatch.module').then(m => m.StopwatchPageModule)
   }
 ];
 

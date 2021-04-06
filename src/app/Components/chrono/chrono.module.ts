@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ChronoPageRoutingModule } from './chrono-routing.module';
 
 import { ChronoPage } from './chrono.page';
-import {AddZeroBeforeNumberPipeModule} from '../../pipes/addZeroBeforeNumber/add-zero-before-number.pipe.module';
+import {AddZeroBeforeNumberPipeModule} from '../../Pipes/addZeroBeforeNumber/add-zero-before-number.pipe.module';
 
 @NgModule({
   imports: [

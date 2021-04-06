@@ -109,10 +109,14 @@
             <ion-icon name="trash-outline"></ion-icon>
           </ion-item-option>
         </ion-item-options>
-        <ion-item lines="full">
+        <ion-item lines="none">
           <ion-label>
-            <span> {{ recordTimer.time | chrono }} </span>
-            <p>{{ recordTimer.date |  date:'EEEE dd MMMM YYYY' }}</p>
+
+            <ion-icon (click)="isFavoris(index)" *ngIf="recordTimer.favorite" name="star"></ion-icon>
+            <ion-icon (click)="isFavoris(index)"  *ngIf="!recordTimer.favorite" name="star-outline"></ion-icon>
+
+            <span>  {{ recordTimer.time | chrono }} </span>
+            <p> {{ recordTimer.date |  date:'EEEE dd MMMM YYYY h:mm:ss a' }}</p>
           </ion-label>
         </ion-item>
         <!-- <ion-item-options side="end">

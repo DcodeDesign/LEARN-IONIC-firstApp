@@ -1,5 +1,7 @@
 {
   "name": "LEARN-IONIC-secondApp",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
